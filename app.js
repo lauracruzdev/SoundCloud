@@ -13,6 +13,7 @@ async function buscar(busqueda){
 // trae cosas
     let promesa = SC.get('/tracks', {
         q: busqueda,
+        limit: 10
     });
     return promesa;
 }
@@ -25,8 +26,7 @@ function pulsaBuscar(){
     
     buscar(contenidoBusqueda)
     .then( function(respuesta){
-        muestraTracks(respuesta);
-        
+        muestraTracks(respuesta);   
     })
 }
 
@@ -40,14 +40,65 @@ function muestraTracks(infoContenido){
 
     //Recorro la array de infocontenido
     for (let i = 0; i < maxIndice; i++){
-        console.log(infoContenido[i]);
-    }
+        let track = infoContenido[i];
+        let portada = track.artwork_url ? track.artwork_url : "/img/iconomusica";
+
+        let fecha = new Date(track.created_at);
+        let year = fecha.getFullYear();
+
+        let nodo = createNode(`<div class="cajaTrack">
+            <img class="imagen" src="${portada}" alt="" onclick="load(${track.id})" draggable="true">
+            <p class="titulo">${track.title}</p>
+            <p class="autor">${track.user.username}</p>
+            <p class="fecha">${year}</p>
+        </div>`);
+
+        nodo.addEventListener("dragstart", function(event){
+            dragStart(event, track.id)
+        })
+
+        document.getElementById("contenido").appendChild(nodo);
 
 
+    } 
+    
+
+    
+}
+
+function allowDrop(ev) {
+    ev.preventDefault();
+    console.log("pene2");
+}
+
+function dragStart(ev, idTrack){
+    ev.dataTransfer.setData("idTrack", idTrack);
+    console.log("pene1")
+}
 
 
-    //pinto los resultados
-    document.getElementById("contenido").innerHTML = infoContenido;
+function drop(ev) {
+    ev.preventDefault();
+    let data = ev.dataTransfer.getData("idTrack");
+    load(data);
+    console.log("pene3");
+}
 
+function createNode(str){
+
+    let padre = document.createElement("div");
+    padre.innerHTML = str;
+    
+    return padre.firstChild;
+}
+
+function load(idTrack){
+
+    document.getElementById("reproductor").src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/" + idTrack;
 
 }
+
+
+
+
+
