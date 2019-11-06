@@ -22,7 +22,7 @@ async function buscar(busqueda){
 function pulsaBuscar(){
     
     let contenidoBusqueda = document.getElementById("input").value;
-    console.log(contenidoBusqueda);
+    
     
     buscar(contenidoBusqueda)
     .then( function(respuesta){
@@ -68,12 +68,12 @@ function muestraTracks(infoContenido){
 
 function allowDrop(ev) {
     ev.preventDefault();
-    console.log("pene2");
+    
 }
 
 function dragStart(ev, idTrack){
     ev.dataTransfer.setData("idTrack", idTrack);
-    console.log("pene1")
+    
 }
 
 
@@ -81,7 +81,7 @@ function drop(ev) {
     ev.preventDefault();
     let data = ev.dataTransfer.getData("idTrack");
     load(data);
-    console.log("pene3");
+   
 }
 
 function createNode(str){
