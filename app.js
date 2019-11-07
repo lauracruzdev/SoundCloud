@@ -14,6 +14,7 @@ async function buscar(busqueda){
     let promesa = SC.get('/tracks', {
         q: busqueda,
         limit: 10
+        
     });
     return promesa;
 }
@@ -41,7 +42,7 @@ function muestraTracks(infoContenido){
     //Recorro la array de infocontenido
     for (let i = 0; i < maxIndice; i++){
         let track = infoContenido[i];
-        let portada = track.artwork_url ? track.artwork_url : "/img/iconomusica";
+        let portada = track.artwork_url ? track.artwork_url : "/img/NOTA.png";
 
         let fecha = new Date(track.created_at);
         let year = fecha.getFullYear();
